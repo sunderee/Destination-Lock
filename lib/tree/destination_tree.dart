@@ -1,7 +1,8 @@
 import 'package:destination_lock/tree/node.dart';
+import 'package:flutter/material.dart';
 
 Map<String, dynamic> buildRouteMap<T, S>(Node<T, S> root) {
-  Map<dynamic, dynamic> routeMap = Map();
+  Map<String, WidgetBuilder> routeMap = Map();
 }
 
 List<Map<String, dynamic>> generateChildRoutes<T, S>(Node<T, S> currentNode) {

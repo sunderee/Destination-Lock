@@ -5,20 +5,7 @@ class Node<T, S> {
 
   Node({this.data, this.reference});
 
-  int numberOfChildren() => children.length;
+  bool hasChildren() => children.isNotEmpty;
 
   void insertChild(Node child) => children.add(child);
-
-  String printTree() {
-    String currentNode = 'Current node data: $data\nFinding children...\n';
-    if (children.isNotEmpty) {
-      children.forEach((child) {
-        currentNode += child.printTree();
-      });
-    } else {
-      currentNode += 'No children found!\n';
-    }
-    currentNode += '\n';
-    return currentNode;
-  }
 }

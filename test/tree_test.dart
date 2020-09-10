@@ -47,9 +47,14 @@ void main() {
       expect(1, 1);
     });
 
-    test('number of root children', () {
-      int numberOfRootsChildren = root.numberOfChildren();
-      expect(numberOfRootsChildren, 3);
+    test('determine if root has children', () {
+      bool hasChildren = root.hasChildren();
+      expect(hasChildren, true);
+    });
+
+    test('determine that node d has no children', () {
+      bool hasChildren = d.hasChildren();
+      expect(hasChildren, false);
     });
   });
 }
