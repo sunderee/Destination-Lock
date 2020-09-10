@@ -6,6 +6,8 @@ import 'package:destination_lock/tree/models/node.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+/// Collection of unit tests regarding both the underlying tree data structure
+/// as well as the library itself
 void main() {
   group('tree data structure', () {
     final Node<Widget, String> root = Node(
@@ -69,10 +71,7 @@ void main() {
 
     test('generate route tree from root', () {
       Stopwatch stopwatch = Stopwatch()..start();
-      final DestinationTree tree = DestinationTree();
-      tree.buildRouteMap(root);
-
-      Map<String, WidgetBuilder> routes = tree.getRouteMap();
+      Map<String, WidgetBuilder> routes = buildRouteMap(root);
       stopwatch.stop();
       print(routes.keys);
       print('Route generation took ${stopwatch.elapsedMilliseconds}ms');
