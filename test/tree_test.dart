@@ -1,6 +1,6 @@
+import 'package:destination_lock/destination_lock.dart';
 import 'package:destination_lock/tree/models/regular_route.dart';
 import 'package:destination_lock/tree/models/root_route.dart';
-import 'package:destination_lock/tree/route_tree.dart';
 import 'package:destination_lock/tree/tree_builder.dart';
 import 'package:destination_lock/tree/models/node.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +81,7 @@ void main() {
   });
 
   group('actual implementation', () {
-    RouteTree routeTree = RouteTree(
+    DestinationLock routeTree = DestinationLock(
       rootRoute: RootRoute(
         widget: Text('im a root widget'),
       ),
