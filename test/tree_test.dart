@@ -1,45 +1,52 @@
+import 'package:destination_lock/tree/destination_tree.dart';
 import 'package:destination_lock/tree/node.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('tree data structure', () {
-    final Node<String, String> root = Node(
-      data: 'bruh, a string node',
+    final Node<Widget, String> root = Node(
+      data: MaterialApp(),
       reference: 'root',
     );
-    final Node<String, String> c = Node(
-      data: 'hi, im c, i should have two children: a and b',
+    final Node<Widget, String> c = Node(
+      data: Text('hi, im c, i should have two children: a and b'),
       reference: 'c',
     );
     c.insertChild(
-      Node<String, String>(
-        data: 'im a, hihi',
+      Node<Widget, String>(
+        data: Text('im a, hihi'),
         reference: 'a',
       ),
     );
     c.insertChild(
-      Node<String, String>(
-        data: 'im b, muahaha',
+      Node<Widget, String>(
+        data: Text('im b, muahaha'),
         reference: 'b',
       ),
     );
     root.insertChild(c);
 
-    final Node<String, String> d = Node(
-      data: 'sup, im d, and i have no kids ;(',
+    final Node<Widget, String> d = Node(
+      data: Text('sup, im d, and i have no kids ;('),
       reference: 'd',
     );
     root.insertChild(d);
 
-    final Node<String, String> f = Node(
-      data: 'and im f, and heres my kid e',
+    final Node<Widget, String> f = Node(
+      data: Text('and im f, and heres my kid e'),
       reference: 'f',
     );
     f.insertChild(
-      Node<String, String>(
-        data: 'hi, im e, wanna play with me?',
+      Node<Widget, String>(
+        data: Text('hi, im e, wanna play with me?'),
         reference: 'e',
-      ),
+      )..insertChild(
+          Node<Widget, String>(
+            data: Text('hihi, im just here for the lolz'),
+            reference: 'g',
+          ),
+        ),
     );
     root.insertChild(f);
 
@@ -55,6 +62,15 @@ void main() {
     test('determine that node d has no children', () {
       bool hasChildren = d.hasChildren();
       expect(hasChildren, false);
+    });
+
+    test('generate route tree from root', () {
+      Stopwatch stopwatch = new Stopwatch()..start();
+      Map<String, WidgetBuilder> routes = buildRouteMap(root);
+      stopwatch.stop();
+      print(routes.keys);
+      print('Route generation took ${stopwatch.elapsedMilliseconds}ms');
+      expect(routes.keys.length, 8);
     });
   });
 }
