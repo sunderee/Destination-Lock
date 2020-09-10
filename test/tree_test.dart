@@ -1,5 +1,5 @@
 import 'package:destination_lock/tree/destination_tree.dart';
-import 'package:destination_lock/tree/node.dart';
+import 'package:destination_lock/tree/models/node.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

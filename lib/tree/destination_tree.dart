@@ -1,5 +1,5 @@
 import 'package:destination_lock/structs/stack.struct.dart';
-import 'package:destination_lock/tree/node.dart';
+import 'package:destination_lock/tree/models/node.dart';
 import 'package:flutter/material.dart';
 
 class DestinationTree {
