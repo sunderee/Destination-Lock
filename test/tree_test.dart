@@ -1,4 +1,7 @@
-import 'package:destination_lock/tree/destination_tree.dart';
+import 'package:destination_lock/tree/models/regular_route.dart';
+import 'package:destination_lock/tree/models/root_route.dart';
+import 'package:destination_lock/tree/route_tree.dart';
+import 'package:destination_lock/tree/tree_builder.dart';
 import 'package:destination_lock/tree/models/node.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -70,6 +73,59 @@ void main() {
       tree.buildRouteMap(root);
 
       Map<String, WidgetBuilder> routes = tree.getRouteMap();
+      stopwatch.stop();
+      print(routes.keys);
+      print('Route generation took ${stopwatch.elapsedMilliseconds}ms');
+      expect(routes.keys.length, 8);
+    });
+  });
+
+  group('actual implementation', () {
+    RouteTree routeTree = RouteTree(
+      rootRoute: RootRoute(
+        widget: Text('im a root widget'),
+      ),
+      regularRoutes: [
+        RegularRoute(
+          path: '/c',
+          widget: Text('im c'),
+          children: [
+            RegularRoute(
+              path: '/a',
+              widget: Text('im a'),
+            ),
+            RegularRoute(
+              path: '/b',
+              widget: Text('im b'),
+            ),
+          ],
+        ),
+        RegularRoute(
+          path: '/d',
+          widget: Text('im d'),
+        ),
+        RegularRoute(
+          path: '/f',
+          widget: Text('im f'),
+          children: [
+            RegularRoute(
+              path: '/e',
+              widget: Text('im e'),
+              children: [
+                RegularRoute(
+                  path: '/g',
+                  widget: Text('im g'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
+
+    test('tree creation', () {
+      Stopwatch stopwatch = Stopwatch()..start();
+      Map<String, WidgetBuilder> routes = routeTree.convertToTreeStructure();
       stopwatch.stop();
       print(routes.keys);
       print('Route generation took ${stopwatch.elapsedMilliseconds}ms');

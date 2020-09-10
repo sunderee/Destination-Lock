@@ -5,7 +5,10 @@ class RootRoute {
   final String path;
   final Widget widget;
 
-  RootRoute({this.path = '/', this.widget});
+  RootRoute({
+    @required this.widget,
+    this.path = '/',
+  });
 
   Node<Widget, String> toNode() => Node<Widget, String>(
         data: widget,
