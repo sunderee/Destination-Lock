@@ -65,8 +65,11 @@ void main() {
     });
 
     test('generate route tree from root', () {
-      Stopwatch stopwatch = new Stopwatch()..start();
-      Map<String, WidgetBuilder> routes = buildRouteMap(root);
+      Stopwatch stopwatch = Stopwatch()..start();
+      final DestinationTree tree = DestinationTree();
+      tree.buildRouteMap(root);
+
+      Map<String, WidgetBuilder> routes = tree.getRouteMap();
       stopwatch.stop();
       print(routes.keys);
       print('Route generation took ${stopwatch.elapsedMilliseconds}ms');
