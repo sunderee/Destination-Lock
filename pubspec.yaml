@@ -1,6 +1,6 @@
 name: destination_lock
 description: Lock/unlock destinations that your application can reach
-version: 0.0.2+2
+version: 0.0.2+3
 homepage: https://github.com/sunderee/Destination-Lock/blob/master/README.md
 repository: https://github.com/sunderee/Destination-Lock
 
