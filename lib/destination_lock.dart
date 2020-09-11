@@ -13,11 +13,23 @@ class DestinationLock extends MaterialApp {
   final RootRoute rootRoute;
 
   /// Collection of regular routes
-  final Iterable<RegularRoute> regularRoutes;
+  final List<RegularRoute> regularRoutes;
+
+  /// Collection of blocked routes
+  final List<String> blockedRoutes;
 
   /// Create the [DestinationLock] via the [RootRoute] and collection of
-  /// [RegularRoute]s
-  DestinationLock({@required this.rootRoute, @required this.regularRoutes});
+  /// [RegularRoute] objects. Both [rootRoute] and [regularRoutes] paramters are
+  /// required, but you also have the [blockedRoutes] one which defines routes
+  /// that are supposed to be blocked
+  DestinationLock(
+      {@required this.rootRoute,
+      @required this.regularRoutes,
+      this.blockedRoutes}) {
+    if (blockedRoutes != null && blockedRoutes.isNotEmpty) {
+      recomputeTree(blockedRoutes);
+    }
+  }
 
   /// Export the routes into a `Map<String, WidgetBuilder>` object which is used
   /// by the [MaterialApp] in order to create routes
@@ -28,5 +40,18 @@ class DestinationLock extends MaterialApp {
     });
 
     return buildRouteMap(root);
+  }
+
+  /// Recomputes tree structure based on the blocked routes predicament: you're
+  /// only supposed to remove routes whose path contains one of the blocked
+  /// path mentions, but that means that the structure of paths (this is, their
+  /// parent-child relative paths) need to follow a strict naming convention
+  void recomputeTree(List<String> blockedRoutes) {
+    regularRoutes.removeWhere((route) {
+      for (int i = 0; i < blockedRoutes.length; i++) {
+        return route.path.contains(blockedRoutes[i]);
+      }
+      return false;
+    });
   }
 }
