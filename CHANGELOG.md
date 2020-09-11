@@ -7,3 +7,4 @@
 ## [0.0.2] - September 11, 2020
 
 - Updated documentation and example
+- With 0.0.2+3 the project is open sourced
