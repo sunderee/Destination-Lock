@@ -13,9 +13,9 @@ class DestinationLock extends MaterialApp {
   final RootRoute rootRoute;
 
   /// Collection of regular routes
-  final Iterable<RegularRoute> regularRoutes;
+  final List<RegularRoute> regularRoutes;
 
-  final Iterable<String> blockedRoutes;
+  final List<String> blockedRoutes;
 
   /// Create the [DestinationLock] via the [RootRoute] and collection of
   /// [RegularRoute]s
@@ -23,7 +23,7 @@ class DestinationLock extends MaterialApp {
       {@required this.rootRoute,
       @required this.regularRoutes,
       this.blockedRoutes}) {
-    if (blockedRoutes.isNotEmpty) {
+    if (blockedRoutes != null && blockedRoutes.isNotEmpty) {
       recomputeTree(blockedRoutes);
     }
   }
@@ -39,16 +39,12 @@ class DestinationLock extends MaterialApp {
     return buildRouteMap(root);
   }
 
-  void recomputeTree(Iterable<String> blockedRoutes) {
-    regularRoutes.forEach((route) {
-      if (blockedRoutes.contains(route.path)) {
-        regularRoutes.toList().remove(route);
-        if (route.children.isNotEmpty) {
-          regularRoutes.toList().removeWhere(
-                (childRoute) => childRoute.path.contains(route.path),
-              );
-        }
+  void recomputeTree(List<String> blockedRoutes) {
+    regularRoutes.removeWhere((route) {
+      for (int i = 0; i < blockedRoutes.length; i++) {
+        return route.path.contains(blockedRoutes[i]);
       }
+      return false;
     });
   }
 }
