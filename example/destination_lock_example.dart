@@ -65,6 +65,10 @@ class _AppState extends State<App> {
     return MaterialApp(
       // Simply use the _routes
       routes: _routes,
+
+      // IMPORTANT: this is only for showcasing the use of the library to
+      // modify the route map, if you have a root path, you don't need the
+      // home widget declaration!!!
       home: Scaffold(
         body: Center(
           child: MaterialButton(
