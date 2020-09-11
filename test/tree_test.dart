@@ -80,55 +80,107 @@ void main() {
   });
 
   group('actual implementation', () {
-    DestinationLock routeTree = DestinationLock(
-      rootRoute: RootRoute(
-        widget: Text('im a root widget'),
-      ),
-      regularRoutes: [
-        RegularRoute(
-          path: '/c',
-          widget: Text('im c'),
-          children: [
-            RegularRoute(
-              path: '/a',
-              widget: Text('im a'),
-            ),
-            RegularRoute(
-              path: '/b',
-              widget: Text('im b'),
-            ),
-          ],
-        ),
-        RegularRoute(
-          path: '/d',
-          widget: Text('im d'),
-        ),
-        RegularRoute(
-          path: '/f',
-          widget: Text('im f'),
-          children: [
-            RegularRoute(
-              path: '/e',
-              widget: Text('im e'),
-              children: [
-                RegularRoute(
-                  path: '/g',
-                  widget: Text('im g'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ],
-    );
-
     test('tree creation', () {
+      DestinationLock routeTree = DestinationLock(
+        rootRoute: RootRoute(
+          widget: Text('im a root widget'),
+        ),
+        regularRoutes: [
+          RegularRoute(
+            path: '/c',
+            widget: Text('im c'),
+            children: [
+              RegularRoute(
+                path: '/c/a',
+                widget: Text('im a'),
+              ),
+              RegularRoute(
+                path: '/c/b',
+                widget: Text('im b'),
+              ),
+            ],
+          ),
+          RegularRoute(
+            path: '/d',
+            widget: Text('im d'),
+          ),
+          RegularRoute(
+            path: '/f',
+            widget: Text('im f'),
+            children: [
+              RegularRoute(
+                path: '/f/e',
+                widget: Text('im e'),
+                children: [
+                  RegularRoute(
+                    path: '/f/e/g',
+                    widget: Text('im g'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      );
+
       Stopwatch stopwatch = Stopwatch()..start();
       Map<String, WidgetBuilder> routes = routeTree.convertToTreeStructure();
       stopwatch.stop();
       print(routes.keys);
       print('Route generation took ${stopwatch.elapsedMilliseconds}ms');
       expect(routes.keys.length, 8);
+    });
+
+    test('removal of one route', () {
+      DestinationLock routeTree = DestinationLock(
+        rootRoute: RootRoute(
+          widget: Text('im a root widget'),
+        ),
+        regularRoutes: [
+          RegularRoute(
+            path: '/c',
+            widget: Text('im c'),
+            children: [
+              RegularRoute(
+                path: '/c/a',
+                widget: Text('im a'),
+              ),
+              RegularRoute(
+                path: '/c/b',
+                widget: Text('im b'),
+              ),
+            ],
+          ),
+          RegularRoute(
+            path: '/d',
+            widget: Text('im d'),
+          ),
+          RegularRoute(
+            path: '/f',
+            widget: Text('im f'),
+            children: [
+              RegularRoute(
+                path: '/f/e',
+                widget: Text('im e'),
+                children: [
+                  RegularRoute(
+                    path: '/f/e/g',
+                    widget: Text('im g'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+        blockedRoutes: ['/f'],
+      );
+
+      Stopwatch stopwatch = Stopwatch()..start();
+      Map<String, WidgetBuilder> routes = routeTree.convertToTreeStructure();
+      stopwatch.stop();
+      print(routes.keys);
+      print('Route generation took ${stopwatch.elapsedMilliseconds}ms');
+      expect(routes.keys.length, 5);
     });
   });
 }
